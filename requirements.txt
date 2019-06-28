@@ -2,3 +2,4 @@ pandas
 tables
 matplotlib
 pyyaml
+gordo-components==0.25
