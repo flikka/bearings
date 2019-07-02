@@ -1,5 +1,9 @@
 pandas
+numpy
 tables
 matplotlib
 pyyaml
 gordo-components==0.25
+mlflow
+azureml
+scikit-learn
