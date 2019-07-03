@@ -8,6 +8,7 @@ import mlflow
 
 from sklearn.metrics import r2_score, explained_variance_score
 from gordo_components import serializer
+from gordo_components.server import model_io
 
 PLOTTING = False
 if PLOTTING:
@@ -54,6 +55,9 @@ def build_model(resampled_dataframe, epochs=5, batch_size=10):
 
     print("Run data through model for prediction")
     predicted_data = model.predict(resampled_dataframe)
+    # Inverse transform the model pipeline, since the autoencoders are a bit weird
+    # with regards to their output (currently)
+    predicted_data = model_io.get_inverse_transformed_input(model, predicted_data)
     anomalies = make_anomalies(resampled_dataframe, predicted_data)
     anomalies = pd.DataFrame(anomalies, index=resampled_dataframe.index)
     anomalies_mean_training = anomalies.iloc[:train_until].mean()[0]
